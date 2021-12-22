@@ -66,15 +66,11 @@ def test_name_filter_course(client, course_factory):
 
 @pytest.mark.django_db
 def test_create_course(client):
-
-    Course.objects.create(name='Biology')
-
     url = reverse("courses-list")
-    response = client.get(url)
-    assert response.status_code == 200
-    data = response.json()
-    assert len(data) == 1
-    assert data[0]['name'] == 'Biology'
+    data = {'name': 'Biology',
+            'stundents': []}
+    response = client.post(url, data)
+    assert response.status_code == 201
 
 
 @pytest.mark.django_db
